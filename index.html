@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Calculadora Financeira</title>
+</head>
+<!-- Nessa primeira parte da calculadora vocês vão criar uma calculadora financeira capaz de 
+realizar cálculos de juros, valor presente, valor futuro, taxa, tempo e ainda ser capaz de 
+converter as taxas no critério de sua escolha na capitalização simples. -->
+<body>
+    <div>
+        <select name="tipoCalculo" id="tipoCalculo">
+            <option value="Juros">Juros</option>
+            <option value="Taxa">Taxa</option>
+            <option value="Tempo">Tempo</option>
+            <option value="ValorFuturo">Valor Futuro</option>
+            <option value="ValorPresente">Valor Presente</option>
+        </select>
+    </div>
+
+    <div id="divJuros" class="hide">
+        <input type="number" id="vp" style="" placeholder="Capital (VP)">
+        <input type="number" id="i" style="" placeholder="Taxa de juros (i)">
+        <input type="number" id="n" style="" placeholder="Período (n)">
+    </div>
+
+    <div id="divVF" class="hide">
+        <input type="number" id="vp" style="" placeholder="Capital (VP)">
+        <input type="number" id="i" style="" placeholder="Taxa de juros (i)">
+        <input type="number" id="n" style="" placeholder="Período (n)">
+    </div>
+
+    <div id="divVP" class="hide">
+        <input type="number" id="vp" style="" placeholder="Valor Final (VF)">
+        <input type="number" id="i" style="" placeholder="Taxa de juros (i)">
+        <input type="number" id="n" style="" placeholder="Período (n)">
+    </div>
+
+    <div id="divTaxa" class="hide">
+        <input type="number" id="vp" style="" placeholder="Capital (VP)">
+        <input type="number" id="vf" style="" placeholder="Valor Final (VF)">
+        <input type="number" id="i" style="" placeholder="Taxa de juros (i)">
+        <input type="number" id="n" style="" placeholder="Período (n)">
+    </div>
+
+    <div id="divTempo" class="hide">
+        <input type="number" id="vp" style="" placeholder="Capital (VP)">
+        <input type="number" id="vf" style="" placeholder="Valor Final (VF)">
+        <input type="number" id="i" style="" placeholder="Taxa de juros (i)">
+    </div>
+
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
