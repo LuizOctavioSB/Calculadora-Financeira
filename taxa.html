@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Calculadora Financeira - Taxa</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="navbar">
+                <li>
+                    <a href="juros.html">Juros</a>
+                </li>
+                <li>
+                    <a class="active" href="taxa.html">Taxa</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Menu de seleção para tipos de cálculo de taxa -->
+    <div class="taxa-container">
+        <select name="tipoCalculoTaxa" id="tipoCalculoTaxa">
+            <option value="" disabled selected>Selecione o Tipo de Cálculo</option>
+            <option value="Efetiva">Taxa de Juros Efetiva (i)</option>
+            <option value="Comercial">Taxa de Juros Comercial (ic)</option>
+        </select>
+
+        <!-- Inputs para cálculo da Taxa Efetiva -->
+        <div id="divEfetiva" class="hide calc-section">
+            <ul>
+                <li><input type="number" id="icEfetiva" placeholder="Taxa de Desconto Comercial (ic)"></li>
+                <li><input type="number" id="nEfetiva" placeholder="Tempo (n)"></li>
+            </ul>
+            <button id="calcularEfetivaBtn">Calcular Taxa Efetiva</button>
+            <p id="resultadoEfetiva"></p>
+        </div>
+
+        <!-- Inputs para cálculo da Taxa Comercial -->
+        <div id="divComercial" class="hide calc-section">
+            <ul>
+                <li><input type="number" id="iComercial" placeholder="Taxa Efetiva (i)"></li>
+                <li><input type="number" id="nComercial" placeholder="Tempo (n)"></li>
+            </ul>
+            <button id="calcularComercialBtn">Calcular Taxa Comercial</button>
+            <p id="resultadoComercial"></p>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
