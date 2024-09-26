@@ -128,8 +128,8 @@ function calcularTaxaEfetiva() {
 
     // Convert ic from percentage to decimal
     const icDecimal = ic / 100;
-    const iDecimal = icDecimal / (1 - icDecimal * n);
-    const i = iDecimal * 100; // Convert back to percentage
+    const iDecimal = icDecimal / (1 - (icDecimal * n));
+    const i = iDecimal * 100;
     document.getElementById("resultadoEfetiva").textContent = `Taxa Efetiva (i): ${i.toFixed(4)}%`;
 }
 
@@ -147,7 +147,7 @@ function calcularTaxaComercial() {
 
     // Convert i from percentage to decimal
     const iDecimal = i / 100;
-    const icDecimal = iDecimal * (1 - iDecimal * n);
-    const ic = icDecimal * 100; // Convert back to percentage
+    const icDecimal = iDecimal / (1 + (iDecimal * n));
+    const ic = icDecimal * 100;
     document.getElementById("resultadoComercial").textContent = `Taxa Comercial (ic): ${ic.toFixed(4)}%`;
 }
