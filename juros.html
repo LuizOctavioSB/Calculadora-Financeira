@@ -1,86 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
     <title>Calculadora Financeira - Juros</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
         <nav>
             <ul id="navbar">
-                <li>
-                    <a class="active" href="juros.html">Juros</a></li>
-                <li>
-                    <a href="taxa.html">Taxa</a>
-                </li>
+                <li><a class="active" href="juros.html">Juros</a></li>
+                <li><a href="taxa.html">Taxa</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Menu de Juros -->
-    <div class="juros-container">
-        <select name="tipoCalculo" id="tipoCalculo">
-            <option value="" disabled selected>Selecione o Tipo de Cálculo</option>
-            <option value="Juros">Juros (J)</option>
-            <option value="Taxa">Taxa (i)</option>
-            <option value="Tempo">Tempo (n)</option>
-            <option value="ValorFuturo">Valor Futuro (VF)</option>
-            <option value="ValorPresente">Valor Presente (VP)</option>
-        </select>
-
-        <div id="divJuros" class="hide calc-section">
-            <ul>
-                <li><input type="number" id="vpJuros" placeholder="Capital (VP)"></li>
-                <li><input type="number" id="iJuros" placeholder="Taxa de juros (i)"></li>
-                <li><input type="number" id="nJuros" placeholder="Tempo (n)"></li>
-            </ul>
-            <button id="calcularJurosBtn">Calcular Juros</button>
-            <p id="resultadoJuros"></p>
-        </div>
-    
-        <div id="divValorFuturo" class="hide calc-section">
-            <ul>
-                <li><input type="number" id="vpValorFuturo" placeholder="Capital (VP)"></li>
-                <li><input type="number" id="iValorFuturo" placeholder="Taxa de juros (i)"></li>
-                <li><input type="number" id="nValorFuturo" placeholder="Tempo (n)"></li>
-            </ul>
-            <button id="calcularValorFuturoBtn">Calcular Valor Futuro</button>
-            <p id="resultadoValorFuturo"></p>
-        </div>
-    
-        <div id="divValorPresente" class="hide calc-section">
-            <ul>
-                <li><input type="number" id="vfValorPresente" placeholder="Valor Futuro (VF)"></li>
-                <li><input type="number" id="iValorPresente" placeholder="Taxa de juros (i)"></li>
-                <li><input type="number" id="nValorPresente" placeholder="Tempo (n)"></li>
-            </ul>        
-            <button id="calcularValorPresenteBtn">Calcular Valor Presente</button>
-            <p id="resultadoValorPresente"></p>
-        </div>
-    
-        <div id="divTaxa" class="hide calc-section">
-            <ul>
-                <li><input type="number" id="vpTaxa" placeholder="Capital (VP)"></li>
-                <li><input type="number" id="vfTaxa" placeholder="Valor Futuro (VF)"></li>
-                <li><input type="number" id="nTaxa" placeholder="Tempo (n)"></li>
-            </ul>
-            <button id="calcularTaxaBtn">Calcular Taxa</button>
-            <p id="resultadoTaxa"></p>
-        </div>
-    
-        <div id="divTempo" class="hide calc-section">
-            <ul>
-                <li><input type="number" id="vpTempo" placeholder="Capital (VP)"></li>
-                <li><input type="number" id="vfTempo" placeholder="Valor Futuro (VF)"></li>
-                <li><input type="number" id="iTempo" placeholder="Taxa de juros (i)"></li>
-            </ul>
-            <button id="calcularTempoBtn">Calcular Tempo</button>
-            <p id="resultadoTempo"></p>
-        </div>
+    <main>
         <!-- Menu de Juros -->
-    </div>
+        <div class="juros-container">
+            <select name="tipoCalculo" id="tipoCalculo">
+                <option value="" disabled selected>Selecione o Tipo de Cálculo</option>
+                <option value="Juros">Juros (J)</option>
+                <option value="Taxa">Taxa (i)</option>
+                <option value="Tempo">Tempo (n)</option>
+                <option value="ValorFuturo">Valor Futuro (VF)</option>
+                <option value="ValorPresente">Valor Presente (VP)</option>
+                <option value="JurosCompostos">Juros Compostos</option>
+            </select>
+
+            <!-- Seção de Juros Simples -->
+            <div id="divJuros" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vpJuros" placeholder="Capital (VP)"></li>
+                    <li><input type="number" id="iJuros" placeholder="Taxa de juros (i)"></li>
+                    <li><input type="number" id="nJuros" placeholder="Tempo (n)"></li>
+                </ul>
+                <button id="calcularJurosBtn">Calcular Juros</button>
+                <p id="resultadoJuros"></p>
+            </div>
+
+            <!-- Seção de Valor Futuro -->
+            <div id="divValorFuturo" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vpValorFuturo" placeholder="Capital (VP)"></li>
+                    <li><input type="number" id="iValorFuturo" placeholder="Taxa de juros (i)"></li>
+                    <li><input type="number" id="nValorFuturo" placeholder="Tempo (n)"></li>
+                </ul>
+                <button id="calcularValorFuturoBtn">Calcular Valor Futuro</button>
+                <p id="resultadoValorFuturo"></p>
+            </div>
+
+            <!-- Seção de Valor Presente -->
+            <div id="divValorPresente" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vfValorPresente" placeholder="Valor Futuro (VF)"></li>
+                    <li><input type="number" id="iValorPresente" placeholder="Taxa de juros (i)"></li>
+                    <li><input type="number" id="nValorPresente" placeholder="Tempo (n)"></li>
+                </ul>        
+                <button id="calcularValorPresenteBtn">Calcular Valor Presente</button>
+                <p id="resultadoValorPresente"></p>
+            </div>
+
+            <!-- Seção de Taxa -->
+            <div id="divTaxa" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vpTaxa" placeholder="Capital (VP)"></li>
+                    <li><input type="number" id="vfTaxa" placeholder="Valor Futuro (VF)"></li>
+                    <li><input type="number" id="nTaxa" placeholder="Tempo (n)"></li>
+                </ul>
+                <button id="calcularTaxaBtn">Calcular Taxa</button>
+                <p id="resultadoTaxa"></p>
+            </div>
+
+            <!-- Seção de Tempo -->
+            <div id="divTempo" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vpTempo" placeholder="Capital (VP)"></li>
+                    <li><input type="number" id="vfTempo" placeholder="Valor Futuro (VF)"></li>
+                    <li><input type="number" id="iTempo" placeholder="Taxa de juros (i)"></li>
+                </ul>
+                <button id="calcularTempoBtn">Calcular Tempo</button>
+                <p id="resultadoTempo"></p>
+            </div>
+
+            <!-- Seção de Juros Compostos -->
+            <div id="divJurosCompostos" class="hide calc-section">
+                <ul>
+                    <li><input type="number" id="vpJurosCompostos" placeholder="Capital (VP)"></li>
+                    <li><input type="number" id="iJurosCompostos" placeholder="Taxa de juros (i)"></li>
+                    <li><input type="number" id="nJurosCompostos" placeholder="Tempo (n)"></li>
+                </ul>
+                <button id="calcularJurosCompostosBtn">Calcular Juros Compostos</button>
+                <p id="resultadoJurosCompostos"></p>
+            </div>
+        </div>
+    </main>
+
     <script src="js/scripts.js"></script>
 </body>
 </html>

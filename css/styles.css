@@ -14,19 +14,19 @@ header {
     align-items: center;
 }
 
-#navbar li{
+#navbar li {
     margin: 0 10px;
     display: inline;
 }
 
 #navbar a {
     text-decoration: none;
-    color: rgb(100 101 93);;
+    color: rgb(100 101 93);
 }
 
 #navbar .active {
     color: rgb(0, 0, 0);
-    text-decoration: underline;;
+    text-decoration: underline;
 }
 
 /* Body */
@@ -77,11 +77,33 @@ button:hover {
 /* inputs e select */
 input[type="number"],
 select {
-    width: 220px; /* Defina a largura desejada */
+    width: 220px;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 14px;
+}
+
+/* Para melhorar a visibilidade dos resultados */
+p {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Ajustando responsividade */
+@media (max-width: 600px) {
+    button, input[type="number"], select {
+        width: 100%;
+    }
+    
+    #navbar {
+        flex-direction: column;
+    }
+
+    #navbar li {
+        margin-bottom: 10px;
+    }
 }

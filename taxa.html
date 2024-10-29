@@ -10,12 +10,8 @@
     <header>
         <nav>
             <ul id="navbar">
-                <li>
-                    <a href="juros.html">Juros</a>
-                </li>
-                <li>
-                    <a class="active" href="taxa.html">Taxa</a>
-                </li>
+                <li><a href="juros.html">Juros</a></li>
+                <li><a class="active" href="taxa.html">Taxa</a></li>
             </ul>
         </nav>
     </header>
@@ -24,9 +20,22 @@
     <div class="taxa-container">
         <select name="tipoCalculoTaxa" id="tipoCalculoTaxa">
             <option value="" disabled selected>Selecione o Tipo de Cálculo</option>
+            <option value="ConversaoNominalEfetiva">Conversão entre Taxa Nominal e Efetiva</option>
             <option value="Efetiva">Taxa de Juros Efetiva (i)</option>
             <option value="Comercial">Taxa de Juros Comercial (ic)</option>
-        </select>
+            <option value="TaxaEquivalente">Taxa Equivalente (anual, mensal, diária)</option>
+        </select>        
+
+        <!-- Conversão entre Taxa Nominal e Efetiva -->
+        <div id="divConversaoNominalEfetiva" class="hide calc-section">
+            <h2>Conversão entre Taxa Nominal e Taxa Efetiva</h2>
+            <ul>
+                <li><input type="number" id="iNominalEfetiva" placeholder="Taxa Nominal Anual (%)"></li>
+                <li><input type="number" id="kEfetiva" placeholder="Número de Capitalizações por Ano (k)"></li>
+            </ul>
+            <button id="calcularEfetivaNominalBtn">Calcular Taxa Efetiva</button>
+            <p id="resultadoEfetivaNominal"></p>
+        </div>
 
         <!-- Inputs para cálculo da Taxa Efetiva -->
         <div id="divEfetiva" class="hide calc-section">
@@ -46,6 +55,17 @@
             </ul>
             <button id="calcularComercialBtn">Calcular Taxa Comercial</button>
             <p id="resultadoComercial"></p>
+        </div>
+
+        <!-- Conversão de Taxas Equivalentes -->
+        <div id="divTaxaEquivalente" class="hide calc-section">
+            <ul>
+                <li><input type="number" id="iTaxaAnual" placeholder="Taxa Anual (aa)"></li>
+                <li><input type="number" id="iTaxaMensal" placeholder="Taxa Mensal (am)"></li>
+                <li><input type="number" id="iTaxaDiaria" placeholder="Taxa Diária (ad)"></li>
+            </ul>
+            <button id="calcularTaxaEquivalenteBtn">Converter Taxa</button>
+            <p id="resultadoTaxaEquivalente"></p>
         </div>
     </div>
 

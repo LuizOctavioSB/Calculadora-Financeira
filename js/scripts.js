@@ -1,153 +1,225 @@
-// -------------------- Exibir a seção correspondente ao tipo de cálculo selecionado -------------------- //
-function exibirSeccao(tipoCalculoId) {
-    const selectElement = document.getElementById(tipoCalculoId);
-    if (selectElement) {
-        selectElement.addEventListener("change", function() {
-            const sections = document.querySelectorAll('.calc-section');
-            sections.forEach(section => section.classList.add('hide'));
-    
-            const selectedValue = this.value;
-            if (selectedValue) {
-                const divToShow = document.getElementById('div' + selectedValue);
-                if (divToShow) {
-                    divToShow.classList.remove('hide');
+(function() {
+    'use strict';
+
+    // -------------------- Exibir a seção correspondente ao tipo de cálculo selecionado -------------------- //
+    function exibirSecao(tipoCalculoId) {
+        const selectElement = document.getElementById(tipoCalculoId);
+        if (selectElement) {
+            selectElement.addEventListener("change", function() {
+                const sections = document.querySelectorAll('.calc-section');
+                sections.forEach(section => section.classList.add('hide'));
+
+                const selectedValue = this.value;
+                if (selectedValue) {
+                    const divToShow = document.getElementById('div' + selectedValue);
+                    if (divToShow) {
+                        divToShow.classList.remove('hide');
+                    }
                 }
-            }
-        });
-    }
-}
-
-//  -------------------- Chamando a função para cada select -------------------- //
-exibirSeccao("tipoCalculo");      // Para a aba de Juros
-exibirSeccao("tipoCalculoTaxa");  // Para a aba de Taxa
-
-// -------------------- Adicionando eventos de clique aos botões -------------------- //
-function addClickListener(buttonId, handler) {
-    const button = document.getElementById(buttonId);
-    if (button) {
-        button.addEventListener("click", handler);
-    }
-}
-
-// -------------------- Calculo de Juros -------------------- //
-addClickListener("calcularJurosBtn", calcularJuros);
-addClickListener("calcularValorFuturoBtn", calcularValorFuturo);
-addClickListener("calcularValorPresenteBtn", calcularValorPresente);
-addClickListener("calcularTaxaBtn", calcularTaxa);
-addClickListener("calcularTempoBtn", calcularTempo);
-
-// -------------------- Calculo de taxa -------------------- //
-addClickListener("calcularEfetivaBtn", calcularTaxaEfetiva);
-addClickListener("calcularComercialBtn", calcularTaxaComercial);
-
-// -------------------- Funções de cálculo de Juros -------------------- //
-function calcularJuros() {
-    const vp = parseFloat(document.getElementById("vpJuros").value);
-    const i = parseFloat(document.getElementById("iJuros").value);
-    const n = parseFloat(document.getElementById("nJuros").value);
-
-    if (isNaN(vp) || isNaN(i) || isNaN(n)) {
-        document.getElementById("resultadoJuros").textContent = 'Preencha todos os campos corretamente.';
-        return;
+            });
+        }
     }
 
-    const juros = vp * i * n / 100;
-    document.getElementById("resultadoJuros").textContent = `Juros: ${juros.toFixed(2)}`;
-}
+    // -------------------- Chamando a função para cada select -------------------- //
+    exibirSecao("tipoCalculo");      // Para a aba de Juros
+    exibirSecao("tipoCalculoTaxa");  // Para a aba de Taxa
 
-// -------------------- Valor Futuro -------------------- //
-function calcularValorFuturo() {
-    const vp = parseFloat(document.getElementById("vpValorFuturo").value);
-    const i = parseFloat(document.getElementById("iValorFuturo").value);
-    const n = parseFloat(document.getElementById("nValorFuturo").value);
-
-    if (isNaN(vp) || isNaN(i) || isNaN(n)) {
-        document.getElementById("resultadoValorFuturo").textContent = 'Preencha todos os campos corretamente.';
-        return;
+    // -------------------- Adicionando eventos de clique aos botões -------------------- //
+    function addClickListener(buttonId, handler) {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener("click", handler);
+        }
     }
 
-    const vf = vp * (1 + (i * n) / 100);
-    document.getElementById("resultadoValorFuturo").textContent = `Valor Futuro: ${vf.toFixed(2)}`;
-}
+    // -------------------- Cálculo de Juros Compostos -------------------- //
+    function calcularJurosCompostos() {
+        const vp = parseFloat(document.getElementById("vpJurosCompostos").value);
+        const iAnual = parseFloat(document.getElementById("iJurosCompostos").value) / 100;
+        const nMeses = parseFloat(document.getElementById("nJurosCompostos").value);
 
-// -------------------- Valor Presente -------------------- //
-function calcularValorPresente() {
-    const vf = parseFloat(document.getElementById("vfValorPresente").value);
-    const i = parseFloat(document.getElementById("iValorPresente").value);
-    const n = parseFloat(document.getElementById("nValorPresente").value);
+        if (isNaN(vp) || isNaN(iAnual) || isNaN(nMeses)) {
+            document.getElementById("resultadoJurosCompostos").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
 
-    if (isNaN(vf) || isNaN(i) || isNaN(n)) {
-        document.getElementById("resultadoValorPresente").textContent = 'Preencha todos os campos corretamente.';
-        return;
+        const iMensal = iAnual / 12;
+        const vf = vp * Math.pow((1 + iMensal), nMeses);
+        document.getElementById("resultadoJurosCompostos").textContent = `Valor Futuro (VF): ${vf.toFixed(2)}`;
     }
 
-    const vp = vf / (1 + (i * n) / 100);
-    document.getElementById("resultadoValorPresente").textContent = `Valor Presente: ${vp.toFixed(2)}`;
-}
+    addClickListener("calcularJurosCompostosBtn", calcularJurosCompostos);
 
-// -------------------- Taxa -------------------- //
-function calcularTaxa() {
-    const vp = parseFloat(document.getElementById("vpTaxa").value);
-    const vf = parseFloat(document.getElementById("vfTaxa").value);
-    const n = parseFloat(document.getElementById("nTaxa").value);
+    // -------------------- Cálculo de Juros Simples -------------------- //
+    function calcularJuros() {
+        const vp = parseFloat(document.getElementById("vpJuros").value);
+        const iAnual = parseFloat(document.getElementById("iJuros").value) / 100;
+        const nMeses = parseFloat(document.getElementById("nJuros").value);
 
-    if (isNaN(vp) || isNaN(vf) || isNaN(n)) {
-        document.getElementById("resultadoTaxa").textContent = 'Preencha todos os campos corretamente.';
-        return;
+        if (isNaN(vp) || isNaN(iAnual) || isNaN(nMeses)) {
+            document.getElementById("resultadoJuros").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = iAnual / 12;
+        const juros = vp * iMensal * nMeses;
+        document.getElementById("resultadoJuros").textContent = `Juros: ${juros.toFixed(2)}`;
     }
 
-    const i = ((vf - vp) / (vp * n)) * 100;
-    document.getElementById("resultadoTaxa").textContent = `Taxa: ${i.toFixed(2)}%`;
-}
+    addClickListener("calcularJurosBtn", calcularJuros);
 
-// -------------------- Tempo -------------------- //
-function calcularTempo() {
-    const vp = parseFloat(document.getElementById("vpTempo").value);
-    const vf = parseFloat(document.getElementById("vfTempo").value);
-    const i = parseFloat(document.getElementById("iTempo").value);
+    // -------------------- Valor Futuro -------------------- //
+    function calcularValorFuturo() {
+        const vp = parseFloat(document.getElementById("vpValorFuturo").value);
+        const iAnual = parseFloat(document.getElementById("iValorFuturo").value) / 100;
+        const nMeses = parseFloat(document.getElementById("nValorFuturo").value);
 
-    if (isNaN(vp) || isNaN(vf) || isNaN(i)) {
-        document.getElementById("resultadoTempo").textContent = 'Preencha todos os campos corretamente.';
-        return;
+        if (isNaN(vp) || isNaN(iAnual) || isNaN(nMeses)) {
+            document.getElementById("resultadoValorFuturo").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = iAnual / 12;
+        const vf = vp * (1 + iMensal * nMeses);
+        document.getElementById("resultadoValorFuturo").textContent = `Valor Futuro: ${vf.toFixed(2)}`;
     }
 
-    const n = (vf - vp) / (vp * (i / 100));
-    document.getElementById("resultadoTempo").textContent = `Tempo: ${n.toFixed(2)}`;
-}
+    addClickListener("calcularValorFuturoBtn", calcularValorFuturo);
 
-// -------------------- Funções de cálculo de Taxas -------------------- //
-// -------------------- Taxa Efetiva -------------------- //
-function calcularTaxaEfetiva() {
-    const ic = parseFloat(document.getElementById("icEfetiva").value);
-    const n = parseFloat(document.getElementById("nEfetiva").value);
+    // -------------------- Valor Presente -------------------- //
+    function calcularValorPresente() {
+        const vf = parseFloat(document.getElementById("vfValorPresente").value);
+        const iAnual = parseFloat(document.getElementById("iValorPresente").value) / 100;
+        const nMeses = parseFloat(document.getElementById("nValorPresente").value);
 
-    if (isNaN(ic) || isNaN(n)) {
-        document.getElementById("resultadoEfetiva").textContent = 'Preencha todos os campos corretamente.';
-        return;
+        if (isNaN(vf) || isNaN(iAnual) || isNaN(nMeses)) {
+            document.getElementById("resultadoValorPresente").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = iAnual / 12;
+        const vp = vf / (1 + iMensal * nMeses);
+        document.getElementById("resultadoValorPresente").textContent = `Valor Presente: ${vp.toFixed(2)}`;
     }
 
-    // Convert ic from percentage to decimal
-    const icDecimal = ic / 100;
-    const iDecimal = icDecimal / (1 - (icDecimal * n));
-    const i = iDecimal * 100;
-    document.getElementById("resultadoEfetiva").textContent = `Taxa Efetiva (i): ${i.toFixed(4)}%`;
-}
+    addClickListener("calcularValorPresenteBtn", calcularValorPresente);
 
+    // -------------------- Cálculo da Taxa -------------------- //
+    function calcularTaxa() {
+        const vp = parseFloat(document.getElementById("vpTaxa").value);
+        const vf = parseFloat(document.getElementById("vfTaxa").value);
+        const nMeses = parseFloat(document.getElementById("nTaxa").value);
 
+        if (isNaN(vp) || isNaN(vf) || isNaN(nMeses)) {
+            document.getElementById("resultadoTaxa").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
 
-// -------------------- Taxa Comercial -------------------- //
-function calcularTaxaComercial() {
-    const i = parseFloat(document.getElementById("iComercial").value);
-    const n = parseFloat(document.getElementById("nComercial").value);
-
-    if (isNaN(i) || isNaN(n)) {
-        document.getElementById("resultadoComercial").textContent = 'Preencha todos os campos corretamente.';
-        return;
+        const iMensal = (vf - vp) / (vp * nMeses);
+        const iAnual = iMensal * 12 * 100; // Converte para percentual
+        document.getElementById("resultadoTaxa").textContent = `Taxa Anual: ${iAnual.toFixed(2)}%`;
     }
 
-    // Convert i from percentage to decimal
-    const iDecimal = i / 100;
-    const icDecimal = iDecimal / (1 + (iDecimal * n));
-    const ic = icDecimal * 100;
-    document.getElementById("resultadoComercial").textContent = `Taxa Comercial (ic): ${ic.toFixed(4)}%`;
-}
+    addClickListener("calcularTaxaBtn", calcularTaxa);
+
+    // -------------------- Cálculo do Tempo -------------------- //
+    function calcularTempo() {
+        const vp = parseFloat(document.getElementById("vpTempo").value);
+        const vf = parseFloat(document.getElementById("vfTempo").value);
+        const iAnual = parseFloat(document.getElementById("iTempo").value) / 100;
+
+        if (isNaN(vp) || isNaN(vf) || isNaN(iAnual)) {
+            document.getElementById("resultadoTempo").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = iAnual / 12;
+        const nMeses = (vf - vp) / (vp * iMensal);
+        document.getElementById("resultadoTempo").textContent = `Tempo: ${nMeses.toFixed(2)} meses`;
+    }
+
+    addClickListener("calcularTempoBtn", calcularTempo);
+
+    // -------------------- Funções de cálculo de Taxas -------------------- //
+
+    // -------------------- Taxa Efetiva -------------------- //
+    function calcularTaxaEfetiva() {
+        const icAnual = parseFloat(document.getElementById("icEfetiva").value) / 100;
+        const nAnos = parseFloat(document.getElementById("nEfetiva").value);
+
+        if (isNaN(icAnual) || isNaN(nAnos)) {
+            document.getElementById("resultadoEfetiva").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iEfetiva = Math.pow(1 + icAnual / nAnos, nAnos) - 1;
+        document.getElementById("resultadoEfetiva").textContent = `Taxa Efetiva Anual: ${(iEfetiva * 100).toFixed(4)}%`;
+    }
+
+    addClickListener("calcularEfetivaBtn", calcularTaxaEfetiva);
+
+    // -------------------- Taxa Comercial -------------------- //
+    function calcularTaxaComercial() {
+        const iEfetivaAnual = parseFloat(document.getElementById("iComercial").value) / 100;
+        const nAnos = parseFloat(document.getElementById("nComercial").value);
+
+        if (isNaN(iEfetivaAnual) || isNaN(nAnos)) {
+            document.getElementById("resultadoComercial").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const icAnual = nAnos * (Math.pow(1 + iEfetivaAnual, 1 / nAnos) - 1);
+        document.getElementById("resultadoComercial").textContent = `Taxa Comercial Anual: ${(icAnual * 100).toFixed(4)}%`;
+    }
+
+    addClickListener("calcularComercialBtn", calcularTaxaComercial);
+
+    // -------------------- Conversão de Taxas Equivalentes -------------------- //
+    function calcularTaxaEquivalente() {
+        const iAnual = parseFloat(document.getElementById("iTaxaAnual").value) / 100;
+        const iMensal = parseFloat(document.getElementById("iTaxaMensal").value) / 100;
+        const iDiaria = parseFloat(document.getElementById("iTaxaDiaria").value) / 100;
+
+        let resultado = '';
+
+        if (!isNaN(iAnual)) {
+            const iMensalEquiv = Math.pow(1 + iAnual, 1 / 12) - 1;
+            const iDiariaEquiv = Math.pow(1 + iAnual, 1 / 360) - 1;
+            resultado += `Taxa Mensal Equivalente: ${(iMensalEquiv * 100).toFixed(4)}%<br>`;
+            resultado += `Taxa Diária Equivalente: ${(iDiariaEquiv * 100).toFixed(5)}%`;
+        } else if (!isNaN(iMensal)) {
+            const iAnualEquiv = Math.pow(1 + iMensal, 12) - 1;
+            const iDiariaEquiv = Math.pow(1 + iMensal, 1 / 30) - 1;
+            resultado += `Taxa Anual Equivalente: ${(iAnualEquiv * 100).toFixed(4)}%<br>`;
+            resultado += `Taxa Diária Equivalente: ${(iDiariaEquiv * 100).toFixed(5)}%`;
+        } else if (!isNaN(iDiaria)) {
+            const iAnualEquiv = Math.pow(1 + iDiaria, 360) - 1;
+            const iMensalEquiv = Math.pow(1 + iDiaria, 30) - 1;
+            resultado += `Taxa Anual Equivalente: ${(iAnualEquiv * 100).toFixed(4)}%<br>`;
+            resultado += `Taxa Mensal Equivalente: ${(iMensalEquiv * 100).toFixed(4)}%`;
+        } else {
+            resultado = 'Preencha pelo menos um campo.';
+        }
+
+        document.getElementById("resultadoTaxaEquivalente").innerHTML = resultado;
+    }
+
+    addClickListener("calcularTaxaEquivalenteBtn", calcularTaxaEquivalente);
+
+    // -------------------- Conversão de Taxa Nominal para Taxa Efetiva -------------------- //
+    function calcularTaxaEfetivaNominal() {
+        const iNominal = parseFloat(document.getElementById("iNominalEfetiva").value) / 100; // Taxa nominal anual em decimal
+        const k = parseFloat(document.getElementById("kEfetiva").value); // Número de capitalizações por ano
+
+        if (isNaN(iNominal) || isNaN(k) || k <= 0) {
+            document.getElementById("resultadoEfetivaNominal").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iEfetiva = Math.pow(1 + iNominal / k, k) - 1; // Fórmula de conversão
+        document.getElementById("resultadoEfetivaNominal").textContent = `Taxa Efetiva Anual: ${(iEfetiva * 100).toFixed(4)}%`;
+    }
+
+    addClickListener("calcularEfetivaNominalBtn", calcularTaxaEfetivaNominal);
+
+})();
