@@ -20,9 +20,8 @@
         }
     }
 
-    // -------------------- Chamando a função para cada select -------------------- //
-    exibirSecao("tipoCalculo");      // Para a aba de Juros
-    exibirSecao("tipoCalculoTaxa");  // Para a aba de Taxa
+    // -------------------- Inicializar a exibição das seções de cálculo -------------------- //
+    exibirSecao("tipoCalculo");
 
     // -------------------- Adicionando eventos de clique aos botões -------------------- //
     function addClickListener(buttonId, handler) {
@@ -43,12 +42,69 @@
             return;
         }
 
-        const iMensal = iAnual / 12;
+        const iMensal = Math.pow(1 + iAnual, 1) - 1;
         const vf = vp * Math.pow((1 + iMensal), nMeses);
         document.getElementById("resultadoJurosCompostos").textContent = `Valor Futuro (VF): ${vf.toFixed(2)}`;
     }
 
     addClickListener("calcularJurosCompostosBtn", calcularJurosCompostos);
+
+    // -------------------- Cálculo da Taxa Composta -------------------- //
+    function calcularTaxaComposta() {
+        const vp = parseFloat(document.getElementById("vpTaxaComposta").value);
+        const vf = parseFloat(document.getElementById("vfTaxaComposta").value);
+        const nMeses = parseFloat(document.getElementById("nTaxaComposta").value);
+
+        if (isNaN(vp) || isNaN(vf) || isNaN(nMeses) || vp <= 0 || vf <= 0 || nMeses <= 0) {
+            document.getElementById("resultadoTaxaComposta").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = Math.pow(vf / vp, 1 / nMeses) - 1;
+        const iAnual = Math.pow(1 + iMensal, 12) - 1;
+        document.getElementById("resultadoTaxaComposta").innerHTML = `
+            Taxa Mensal: ${(iMensal * 100).toFixed(4)}%<br>
+            Taxa Anual: ${(iAnual * 100).toFixed(4)}%
+        `;
+    }
+
+    addClickListener("calcularTaxaCompostaBtn", calcularTaxaComposta);
+
+    // -------------------- Cálculo do Tempo Composto -------------------- //
+    function calcularTempoComposto() {
+        const vp = parseFloat(document.getElementById("vpTempoComposta").value);
+        const vf = parseFloat(document.getElementById("vfTempoComposta").value);
+        const iAnual = parseFloat(document.getElementById("iTempoComposta").value) / 100;
+
+        if (isNaN(vp) || isNaN(vf) || isNaN(iAnual) || vp <= 0 || vf <= 0 || iAnual <= 0) {
+            document.getElementById("resultadoTempoComposta").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = Math.pow(1 + iAnual, 1) - 1;
+        const nMeses = Math.log(vf / vp) / Math.log(1 + iMensal);
+        document.getElementById("resultadoTempoComposta").textContent = `Tempo: ${nMeses.toFixed(2)} meses`;
+    }
+
+    addClickListener("calcularTempoCompostaBtn", calcularTempoComposto);
+
+    // -------------------- Valor Presente Composto -------------------- //
+    function calcularValorPresenteComposto() {
+        const vf = parseFloat(document.getElementById("vfValorPresenteComposta").value);
+        const iAnual = parseFloat(document.getElementById("iValorPresenteComposta").value) / 100;
+        const nMeses = parseFloat(document.getElementById("nValorPresenteComposta").value);
+
+        if (isNaN(vf) || isNaN(iAnual) || isNaN(nMeses) || vf <= 0 || iAnual <= 0 || nMeses <= 0) {
+            document.getElementById("resultadoValorPresenteComposta").textContent = 'Preencha todos os campos corretamente.';
+            return;
+        }
+
+        const iMensal = Math.pow(1 + iAnual, 1) - 1;
+        const vp = vf / Math.pow(1 + iMensal, nMeses);
+        document.getElementById("resultadoValorPresenteComposta").textContent = `Valor Presente: ${vp.toFixed(2)}`;
+    }
+
+    addClickListener("calcularValorPresenteCompostaBtn", calcularValorPresenteComposto);
 
     // -------------------- Cálculo de Juros Simples -------------------- //
     function calcularJuros() {
@@ -61,14 +117,13 @@
             return;
         }
 
-        const iMensal = iAnual / 12;
-        const juros = vp * iMensal * nMeses;
+        const juros = vp * iAnual * (nMeses / 12);
         document.getElementById("resultadoJuros").textContent = `Juros: ${juros.toFixed(2)}`;
     }
 
     addClickListener("calcularJurosBtn", calcularJuros);
 
-    // -------------------- Valor Futuro -------------------- //
+    // -------------------- Valor Futuro Simples -------------------- //
     function calcularValorFuturo() {
         const vp = parseFloat(document.getElementById("vpValorFuturo").value);
         const iAnual = parseFloat(document.getElementById("iValorFuturo").value) / 100;
@@ -79,14 +134,13 @@
             return;
         }
 
-        const iMensal = iAnual / 12;
-        const vf = vp * (1 + iMensal * nMeses);
+        const vf = vp * (1 + iAnual * (nMeses / 12));
         document.getElementById("resultadoValorFuturo").textContent = `Valor Futuro: ${vf.toFixed(2)}`;
     }
 
     addClickListener("calcularValorFuturoBtn", calcularValorFuturo);
 
-    // -------------------- Valor Presente -------------------- //
+    // -------------------- Valor Presente Simples -------------------- //
     function calcularValorPresente() {
         const vf = parseFloat(document.getElementById("vfValorPresente").value);
         const iAnual = parseFloat(document.getElementById("iValorPresente").value) / 100;
@@ -97,14 +151,13 @@
             return;
         }
 
-        const iMensal = iAnual / 12;
-        const vp = vf / (1 + iMensal * nMeses);
+        const vp = vf / (1 + iAnual * (nMeses / 12));
         document.getElementById("resultadoValorPresente").textContent = `Valor Presente: ${vp.toFixed(2)}`;
     }
 
     addClickListener("calcularValorPresenteBtn", calcularValorPresente);
 
-    // -------------------- Cálculo da Taxa -------------------- //
+    // -------------------- Cálculo da Taxa Simples -------------------- //
     function calcularTaxa() {
         const vp = parseFloat(document.getElementById("vpTaxa").value);
         const vf = parseFloat(document.getElementById("vfTaxa").value);
@@ -115,14 +168,13 @@
             return;
         }
 
-        const iMensal = (vf - vp) / (vp * nMeses);
-        const iAnual = iMensal * 12 * 100; // Converte para percentual
+        const iAnual = ((vf - vp) / (vp * (nMeses / 12))) * 100;
         document.getElementById("resultadoTaxa").textContent = `Taxa Anual: ${iAnual.toFixed(2)}%`;
     }
 
     addClickListener("calcularTaxaBtn", calcularTaxa);
 
-    // -------------------- Cálculo do Tempo -------------------- //
+    // -------------------- Cálculo do Tempo Simples -------------------- //
     function calcularTempo() {
         const vp = parseFloat(document.getElementById("vpTempo").value);
         const vf = parseFloat(document.getElementById("vfTempo").value);
@@ -133,46 +185,27 @@
             return;
         }
 
-        const iMensal = iAnual / 12;
-        const nMeses = (vf - vp) / (vp * iMensal);
+        const nMeses = ((vf - vp) / (vp * iAnual)) * 12;
         document.getElementById("resultadoTempo").textContent = `Tempo: ${nMeses.toFixed(2)} meses`;
     }
 
     addClickListener("calcularTempoBtn", calcularTempo);
 
-    // -------------------- Funções de cálculo de Taxas -------------------- //
-
-    // -------------------- Taxa Efetiva -------------------- //
+    // -------------------- Cálculo da Taxa Efetiva -------------------- //
     function calcularTaxaEfetiva() {
-        const icAnual = parseFloat(document.getElementById("icEfetiva").value) / 100;
-        const nAnos = parseFloat(document.getElementById("nEfetiva").value);
+        const iNominal = parseFloat(document.getElementById("icEfetiva").value) / 100;
+        const k = parseFloat(document.getElementById("nEfetiva").value);
 
-        if (isNaN(icAnual) || isNaN(nAnos)) {
+        if (isNaN(iNominal) || isNaN(k) || k <= 0) {
             document.getElementById("resultadoEfetiva").textContent = 'Preencha todos os campos corretamente.';
             return;
         }
 
-        const iEfetiva = Math.pow(1 + icAnual / nAnos, nAnos) - 1;
+        const iEfetiva = Math.pow(1 + iNominal / k, k) - 1;
         document.getElementById("resultadoEfetiva").textContent = `Taxa Efetiva Anual: ${(iEfetiva * 100).toFixed(4)}%`;
     }
 
     addClickListener("calcularEfetivaBtn", calcularTaxaEfetiva);
-
-    // -------------------- Taxa Comercial -------------------- //
-    function calcularTaxaComercial() {
-        const iEfetivaAnual = parseFloat(document.getElementById("iComercial").value) / 100;
-        const nAnos = parseFloat(document.getElementById("nComercial").value);
-
-        if (isNaN(iEfetivaAnual) || isNaN(nAnos)) {
-            document.getElementById("resultadoComercial").textContent = 'Preencha todos os campos corretamente.';
-            return;
-        }
-
-        const icAnual = nAnos * (Math.pow(1 + iEfetivaAnual, 1 / nAnos) - 1);
-        document.getElementById("resultadoComercial").textContent = `Taxa Comercial Anual: ${(icAnual * 100).toFixed(4)}%`;
-    }
-
-    addClickListener("calcularComercialBtn", calcularTaxaComercial);
 
     // -------------------- Conversão de Taxas Equivalentes -------------------- //
     function calcularTaxaEquivalente() {
@@ -181,20 +214,22 @@
         const iDiaria = parseFloat(document.getElementById("iTaxaDiaria").value) / 100;
 
         let resultado = '';
+        const diasNoAno = 365;
+        const diasNoMes = diasNoAno / 12; // Aproximadamente 30.4167
 
         if (!isNaN(iAnual)) {
             const iMensalEquiv = Math.pow(1 + iAnual, 1 / 12) - 1;
-            const iDiariaEquiv = Math.pow(1 + iAnual, 1 / 360) - 1;
+            const iDiariaEquiv = Math.pow(1 + iAnual, 1 / diasNoAno) - 1;
             resultado += `Taxa Mensal Equivalente: ${(iMensalEquiv * 100).toFixed(4)}%<br>`;
             resultado += `Taxa Diária Equivalente: ${(iDiariaEquiv * 100).toFixed(5)}%`;
         } else if (!isNaN(iMensal)) {
             const iAnualEquiv = Math.pow(1 + iMensal, 12) - 1;
-            const iDiariaEquiv = Math.pow(1 + iMensal, 1 / 30) - 1;
+            const iDiariaEquiv = Math.pow(1 + iMensal, 1 / diasNoMes) - 1;
             resultado += `Taxa Anual Equivalente: ${(iAnualEquiv * 100).toFixed(4)}%<br>`;
             resultado += `Taxa Diária Equivalente: ${(iDiariaEquiv * 100).toFixed(5)}%`;
         } else if (!isNaN(iDiaria)) {
-            const iAnualEquiv = Math.pow(1 + iDiaria, 360) - 1;
-            const iMensalEquiv = Math.pow(1 + iDiaria, 30) - 1;
+            const iAnualEquiv = Math.pow(1 + iDiaria, diasNoAno) - 1;
+            const iMensalEquiv = Math.pow(1 + iDiaria, diasNoMes) - 1;
             resultado += `Taxa Anual Equivalente: ${(iAnualEquiv * 100).toFixed(4)}%<br>`;
             resultado += `Taxa Mensal Equivalente: ${(iMensalEquiv * 100).toFixed(4)}%`;
         } else {
@@ -208,15 +243,15 @@
 
     // -------------------- Conversão de Taxa Nominal para Taxa Efetiva -------------------- //
     function calcularTaxaEfetivaNominal() {
-        const iNominal = parseFloat(document.getElementById("iNominalEfetiva").value) / 100; // Taxa nominal anual em decimal
-        const k = parseFloat(document.getElementById("kEfetiva").value); // Número de capitalizações por ano
+        const iNominal = parseFloat(document.getElementById("iNominalEfetiva").value) / 100;
+        const k = parseFloat(document.getElementById("kEfetiva").value);
 
         if (isNaN(iNominal) || isNaN(k) || k <= 0) {
             document.getElementById("resultadoEfetivaNominal").textContent = 'Preencha todos os campos corretamente.';
             return;
         }
 
-        const iEfetiva = Math.pow(1 + iNominal / k, k) - 1; // Fórmula de conversão
+        const iEfetiva = Math.pow(1 + iNominal / k, k) - 1;
         document.getElementById("resultadoEfetivaNominal").textContent = `Taxa Efetiva Anual: ${(iEfetiva * 100).toFixed(4)}%`;
     }
 
