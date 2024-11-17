@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Financeira - Taxa</title>
+    <title>Calculadora Financeira - Amortização</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -11,24 +11,21 @@
         <nav>
             <ul id="navbar">
                 <li><a href="juros.html">Juros</a></li>
-                <li><a class="active" href="taxa.html">Taxa</a></li>
-                <li><a href="amortizacao.html">Amortização</a></li>
+                <li><a href="taxa.html">Taxa</a></li>
+                <li><a class="active" href="amortizacao.html">Amortização</a></li>
                 <li><a href="vpl.html">VPL</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="taxa-container">
-        <!-- Seleção de Tipo de Capitalização -->
-        <select id="tipoCapitalizacao">
-            <option value="" disabled selected>Selecione o Tipo de Capitalização</option>
-            <option value="simples">Capitalização Simples</option>
-            <option value="composta">Capitalização Composta</option>
-        </select>
-
-        <!-- Seleção de Variável -->
+    <div class="amortizacao-container">
+        <!-- Seleção de variável -->
         <select id="variavel">
-            <option value="" disabled selected>Selecione uma variável</option>
+            <option value="" disabled selected>Selecione uma variável para calcular</option>
+            <option value="amortizacao">Amortização</option>
+            <option value="juros">Juros (J)</option>
+            <option value="saldo_devedor">Saldo Devedor</option>
+            <option value="pmt">PMT</option>
         </select>
 
         <!-- Campos de entrada -->
@@ -36,6 +33,7 @@
             <input type="number" id="valor1" placeholder="" class="hide">
             <input type="number" id="valor2" placeholder="" class="hide">
             <input type="number" id="valor3" placeholder="" class="hide">
+            <input type="number" id="valor4" placeholder="" class="hide">
         </div>
 
         <!-- Botão de Calcular -->
@@ -45,6 +43,6 @@
         <p id="resultado"></p>
     </div>
 
-    <script src="js/taxa.js"></script>
+    <script src="js/amortizacao.js"></script>
 </body>
 </html>
